@@ -1,7 +1,7 @@
 # ER Diagram Workshop – Submission Template
-```
-Name: PRADEEP B
-### Reg No: 212224040238
+
+# Name: PRADEEP B
+# Reg No: 212224040238
 ```
 ## Objective
 To understand and apply ER modeling concepts by creating ER diagrams for real-world applications.
