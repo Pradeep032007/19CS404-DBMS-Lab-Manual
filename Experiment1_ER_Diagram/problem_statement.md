@@ -1,8 +1,5 @@
 # ER Diagram Workshop – Submission Template
 
-# Name: PRADEEP B
-# Reg No: 212224040238
-```
 ## Objective
 To understand and apply ER modeling concepts by creating ER diagrams for real-world applications.
 
@@ -26,45 +23,46 @@ FlexiFit Gym wants a database to manage its members, trainers, and fitness progr
 
 ### ER Diagram:
 
-<img width="1536" height="1024" alt="ChatGPT Image Nov 21, 2025, 08_39_30 AM" src="https://github.com/user-attachments/assets/073c6205-a743-48ec-be18-beaa33ee5825" />
+<img width="761" height="571" alt="er_1" src="https://github.com/user-attachments/assets/ec4ea132-3406-425e-96ce-7b23d9e044fc" />
+
 
 ### Entities and Attributes
 
-| Entity                     | Attributes (PK, FK)                                   | Notes                                                        |
-|----------------------------|--------------------------------------------------------|-------------------------------------------------------------|
-| Member                     | MemberID (PK), Name, MembershipType, StartDate        | Stores member details. Members can join programs & sessions. |
-| Program                    | ProgramID (PK), ProgramName                           | Gym programs like Yoga, Zumba, Weight Training.              |
-| Trainer                    | TrainerID (PK), TrainerName, Specialization           | Trainers assigned to programs and personal sessions.         |
-| PersonalTrainingSession    | SessionID (PK), SessionDate, MemberID (FK), TrainerID (FK) | Personal 1-to-1 training bookings.                      |
-| Attendance                 | AttendanceID (PK), Date, MemberID (FK), ProgramID (FK) | Tracks member attendance for programs.                      |
-| Payment                    | PaymentID (PK), Amount, PaymentDate, MemberID (FK), SessionID (FK, optional) | Tracks membership & session payments. |
+| Entity     | Attributes (PK, FK)                                                              | Notes                         |
+| ---------- | -------------------------------------------------------------------------------- | ----------------------------- |
+| Member     | **Member_ID (PK)**, Name, Membership_Type, Start_Date                            | Gym member details            |
+| Program    | **Program_ID (PK)**, Program_Name                                                | Yoga, Zumba, Weight Training  |
+| Trainer    | **Trainer_ID (PK)**, Name, Specialization                                        | Trainers working in gym       |
+| Session    | **Session_ID (PK)**, Session_Date, Session_Time, Trainer_ID (FK), Member_ID (FK) | Personal training session     |
+| Attendance | **Attendance_ID (PK)**, Member_ID (FK), Session_ID (FK), Status                  | Records attendance            |
+| Payment    | **Payment_ID (PK)**, Member_ID (FK), Amount, Payment_Date, Payment_Type          | Membership or session payment |
+
 
 ### Relationships and Constraints
 
-| Relationship                    | Cardinality       | Participation        | Notes                                                           |
-|---------------------------------|--------------------|-----------------------|------------------------------------------------------------------                       |
-| Member — joins — Program        | Many–to–Many      | Total on Member, Partial on Program | A member can join multiple programs; a program may have many members.      |
-| Trainer — assigned to — Program | Many–to–Many      | Partial on both       | A program can have multiple trainers; trainers may handle many programs.                 |
-| Member — books — PersonalTrainingSession | One–to–Many | Total on Session, Partial on Member | Each session is for one member; a member can book many sessions.        |
-| Trainer — conducts — PersonalTrainingSession | One–to–Many | Total on Session, Partial on Trainer | Each session is handled by one trainer; a trainer can conduct many.|
-| Member — has — Attendance       | One–to–Many       | Total on Attendance   | Attendance entry must belong to a member.                                                |
-| Program — recorded in — Attendance | One–to–Many   | Total on Attendance   | Attendance is always for a valid program.                                                 |
-| Member — makes — Payment        | One–to–Many       | Total on Payment      | Every payment belongs to a specific member.                                              |
-| PersonalTrainingSession — billed in — Payment | Optional (0..1) to Many | Partial on Payment | Payments may or may not be linked to sessions.                          |
+| Relationship                    | Cardinality | Participation | Notes                               |
+| ------------------------------- | ----------- | ------------- | ----------------------------------- |
+| Member — joins — Program        | M:N         | Partial       | Members can join multiple programs  |
+| Trainer — assigned_to — Program | M:N         | Partial       | Programs may have multiple trainers |
+| Member — books — Session        | 1:M         | Partial       | Member can book many sessions       |
+| Trainer — conducts — Session    | 1:M         | Total         | Trainer conducts sessions           |
+| Session — records — Attendance  | 1:M         | Total         | Attendance for each session         |
+| Member — makes — Payment        | 1:M         | Total         | Payments for membership or session  |
+
 
 ### Assumptions
 
-1. Each member, trainer, program, and session has a unique ID.
-2. A member can join many programs; a program may have no members.
-3. A trainer can handle multiple programs.
-4. Personal training sessions always involve one member and one trainer.
-5. Payments are always linked to a member; linking to a session is optional.
-6. Attendance is recorded only for programs.
-7. A program may exist even without trainers assigned.
-8. Dates are stored in standard date formats.
-9. Members can have multiple attendance records on different days.
-10. Trainers can exist without conducting any sessions.
+- Each member has a unique Member_ID used to identify them in the system.
 
+- A member can join multiple fitness programs, and each program can have multiple members.
+
+- A trainer may handle multiple programs, and a program may have more than one trainer.
+
+- Personal training sessions are booked by one member with one trainer at a specific time.
+
+- Payments can be made for both membership registration and personal training sessions.
+
+---
 
 # Scenario B: City Library Event & Book Lending System
 
@@ -81,44 +79,46 @@ The Central Library wants to manage book lending and cultural events.
 
 ### ER Diagram:
 
-<img width="1536" height="1024" alt="ChatGPT Image Nov 21, 2025, 08_51_36 AM" src="https://github.com/user-attachments/assets/a2468007-7059-4a3d-b70d-292aedfa2290" />
+<img width="766" height="572" alt="er_2" src="https://github.com/user-attachments/assets/09fa2330-0542-485e-b522-875aec84b87a" />
 
 
 ### Entities and Attributes
 
-| Entity          | Attributes (PK, FK)                                       | Notes                                                       |
-|-----------------|------------------------------------------------------------|------------------------------------------------------------|
-| Member          | MemberID (PK), Name, Email, Phone                          | Library members who borrow books and attend events.        |
-| Book            | BookID (PK), Title, Author, Category                        | Each book has unique ID; used for lending.                |
-| Loan            | LoanID (PK), LoanDate, ReturnDate, DueDate, MemberID (FK), BookID (FK) | Tracks book borrowing and returns.             |
-| Event           | EventID (PK), EventName, EventDate, RoomID (FK)             | Events organized by the library.                          |
-| Speaker         | SpeakerID (PK), SpeakerName, Expertise                       | Speakers/authors who participate in events.              |
-| Room            | RoomID (PK), RoomName, Capacity                              | Rooms used for events or study booking.                  |
-| MemberEventReg  | RegID (PK), MemberID (FK), EventID (FK)                      | Member registrations for events.                         |
-| Fine            | FineID (PK), Amount, PaidStatus, LoanID (FK)                | Overdue fines for late book returns.                      |
+| Entity  | Attributes (PK, FK)                                                    | Notes                  |
+| ------- | ---------------------------------------------------------------------- | ---------------------- |
+| Member  | **Member_ID (PK)**, Name, Address, Phone                               | Library member         |
+| Book    | **Book_ID (PK)**, Title, Author, Category                              | Book details           |
+| Loan    | **Loan_ID (PK)**, Member_ID (FK), Book_ID (FK), Loan_Date, Return_Date | Borrowing records      |
+| Event   | **Event_ID (PK)**, Event_Name, Event_Date                              | Cultural events        |
+| Speaker | **Speaker_ID (PK)**, Name, Expertise                                   | Event speakers/authors |
+| Room    | **Room_ID (PK)**, Room_Name, Capacity                                  | Rooms for events/study |
+| Fine    | **Fine_ID (PK)**, Loan_ID (FK), Amount                                 | Late return fine       |
 
 
 ### Relationships and Constraints
 
-| Relationship                       | Cardinality       | Participation        | Notes                                                        |
-|------------------------------------|--------------------|-----------------------|--------------------------------------------------------------|
-| Member — borrows — Book (Loan)     | One–to–Many        | Total on Loan         | A member can borrow many books; each loan belongs to one member. |
-| Book — issued in — Loan            | One–to–Many        | Total on Loan         | A book can have many loans over time.                       |
-| Member — registers for — Event     | Many–to–Many       | Partial on both       | A member may register for multiple events.                  |
-| Event — has — Speaker              | Many–to–Many       | Partial on both       | An event can have multiple speakers.                        |
-| Event — uses — Room                | Many–to–One        | Total on Event        | Each event is conducted in one room.                        |
-| Loan — generates — Fine            | One–to–One (0..1)  | Partial on Loan       | A fine exists only if the book is overdue.                  |
+| Relationship               | Cardinality | Participation | Notes                             |
+| -------------------------- | ----------- | ------------- | --------------------------------- |
+| Member — borrows — Book    | M:N         | Partial       | Members can borrow multiple books |
+| Member — registers — Event | M:N         | Partial       | Members attend events             |
+| Event — has — Speaker      | 1:M         | Total         | Event may have many speakers      |
+| Event — booked_in — Room   | M:1         | Total         | Event held in one room            |
+| Loan — generates — Fine    | 1:1         | Partial       | Fine for overdue books            |
 
 
-### Assumptions:
+### Assumptions
 
-- Each book, member, event, and speaker has a unique ID.
-- A book can only be borrowed by one member at a time.
-- Fine is generated only when a loan exceeds the due date.
-- A member can attend many events; an event may have no registrations.
-- Each event is assigned to exactly one room.
-- A speaker may participate in multiple events.
-- ReturnDate may be NULL when book is not returned yet.
+- Each member and book is identified by a unique Member_ID and Book_ID.
+
+- A member can borrow multiple books, but each book loan record corresponds to one member at a time.
+
+- A book can be borrowed multiple times over time but only by one member during a loan period.
+
+- Events organized by the library may have multiple speakers/authors.
+
+- A fine is generated only when a book is returned after the due date.
+
+---
 
 # Scenario C: Restaurant Table Reservation & Ordering
 
@@ -135,36 +135,47 @@ A popular restaurant wants to manage reservations, orders, and billing.
 
 ### ER Diagram:
 
-<img width="1024" height="1024" alt="ChatGPT Image Nov 21, 2025, 08_59_02 AM" src="https://github.com/user-attachments/assets/8bb68d09-d288-4033-ba0f-2a11b642edbb" />
+<img width="760" height="567" alt="er_3" src="https://github.com/user-attachments/assets/3e7c81f2-745e-45f3-a222-c5c24c7e31a0" />
 
 
 ### Entities and Attributes
 
-| Entity        | Attributes (PK, FK)                                      | Notes                                      |
-|---------------|-----------------------------------------------------------|---------------------------------------------|
-| Customer      | CustomerID (PK), Name, Phone, Email                       | Customers who place orders and reservations |
-| MenuItem      | ItemID (PK), ItemName, Price, Category                    | Food items available in the restaurant      |
-| Order         | OrderID (PK), OrderDate, CustomerID (FK), TotalAmount     | Stores information about customer orders    |
-| OrderItem     | OrderItemID (PK), OrderID (FK), ItemID (FK), Quantity     | Maps each item included in an order         |
-| Reservation   | ReservationID (PK), CustomerID (FK), TableNo, Date, Time  | Stores customer table bookings              |
-| Payment       | PaymentID (PK), OrderID (FK), AmountPaid, PaymentMethod   | Tracks payments for orders                  |
+| Entity      | Attributes (PK, FK)                                                 | Notes               |
+| ----------- | ------------------------------------------------------------------- | ------------------- |
+| Customer    | **Customer_ID (PK)**, Name, Phone                                   | Restaurant customer |
+| Reservation | **Reservation_ID (PK)**, Date, Time, Guests, Customer_ID (FK)       | Table reservation   |
+| Table       | **Table_ID (PK)**, Capacity                                         | Restaurant tables   |
+| Order       | **Order_ID (PK)**, Reservation_ID (FK), Order_Time                  | Food order          |
+| Dish        | **Dish_ID (PK)**, Dish_Name, Price, Category                        | Food items          |
+| Bill        | **Bill_ID (PK)**, Reservation_ID (FK), Total_Amount, Service_Charge | Final bill          |
+| Waiter      | **Waiter_ID (PK)**, Name                                            | Restaurant staff    |
+
 
 ### Relationships and Constraints
 
-| Relationship                     | Cardinality      | Participation         | Notes                                           |
-|----------------------------------|------------------|------------------------|--------------------------------------------------|
-| Customer — places — Order        | One-to-Many      | Total on Order         | A customer can place many orders                |
-| Order — contains — OrderItem     | One-to-Many      | Total on OrderItem     | Each order has multiple ordered items           |
-| MenuItem — appears in — OrderItem| One-to-Many      | Partial on MenuItem    | A menu item can appear in many orders           |
-| Customer — makes — Reservation   | One-to-Many      | Partial on Customer    | Customers can reserve tables                    |
-| Order — has — Payment            | One-to-One       | Partial on Payment     | Some orders may be pending without payment      |
+| Relationship                      | Cardinality | Participation | Notes                            |
+| --------------------------------- | ----------- | ------------- | -------------------------------- |
+| Customer — makes — Reservation    | 1:M         | Partial       | Customer can reserve many tables |
+| Reservation — assigned_to — Table | M:1         | Total         | Reservation for a table          |
+| Reservation — places — Order      | 1:M         | Total         | Multiple orders                  |
+| Order — contains — Dish           | M:N         | Total         | Many dishes per order            |
+| Reservation — generates — Bill    | 1:1         | Total         | One bill per reservation         |
+| Waiter — serves — Reservation     | 1:M         | Partial       | Waiter serves many tables        |
+
 
 ### Assumptions
-- Each customer, order, and menu item has a unique ID.
-- A customer may place orders without making reservations.
-- Payment is linked only to orders, not reservations.
-- A reservation is always for a single table.
-- Menu items can exist even if they are not ordered.
+
+- Each customer, reservation, and order has a unique identifier in the system.
+
+- A customer can make multiple reservations, but each reservation belongs to only one customer.
+
+- Each reservation is assigned to one table, while a table can serve multiple reservations at different times.
+
+- An order may contain multiple dishes, and the same dish can appear in multiple orders.
+
+- A single bill is generated per reservation, including food items and service charges.
+
+---
 
 ## Instructions for Students
 
